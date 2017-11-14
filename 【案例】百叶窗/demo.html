@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		.baiyechuang{
+			width: 560px;
+			height: 300px;
+			margin: 100px auto;
+			border: 1px solid #000;
+		}
+		.baiyechuang .maoni{
+			position: relative;
+		}
+		.baiyechuang .maoni p{
+			width: 0px;
+			overflow: hidden;
+			height: 300px;
+			position: absolute;
+			top: 0;
+			color:red;
+			font-size: 40px;
+			background: url(images/1.jpg) no-repeat;
+		}
+	</style>
+	<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+	<script type="text/javascript">
+		window.onload = function(){
+			var nowimg = 0;
+
+			//创建猫腻结点DOM操作
+			$(".baiyechuang").prepend("<div class='maoni'></div>");
+
+			//往猫腻里面再次添加p
+			for(var i = 0 ; i<= 55;i++){
+				$(".maoni").append("<p></p>");   //又添加p
+				$(".maoni p").eq(i).css("left",10*i); //又设置p的left值
+				$(".maoni p").eq(i).css("background-position",-10*i + "px 0px"); //又设置p的left值
+			}
+
+			$("input").click(function(){
+				if(nowimg < 4){
+					nowimg ++;
+				}else{
+					nowimg = 0;
+				}
+				$(".maoni p").css("background-image","url(images/" + nowimg +".jpg)");
+				$(".maoni p").animate({"width":10},600,function(){
+					$(".zhentu").attr("src","images/" + nowimg +".jpg");
+					$(".maoni p").css("width",0);
+				});
+			});
+
+		}
+	</script>
+</head>
+<body>
+	<input type="button" value="asdfadsfasdf" />
+	
+	<div class="baiyechuang">
+		<img class="zhentu" src="images/0.jpg" alt="" />
+	</div>
+</body>
+</html>

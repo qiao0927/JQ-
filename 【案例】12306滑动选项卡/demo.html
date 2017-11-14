@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style>
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.cl{
+				clear: both;
+			}
+			.tab{
+				width: 560px;
+				height: 500px;
+				margin: 100px auto;
+				border: 1px solid #000;
+			}
+			.tab .hd{
+				border-bottom: 1px solid #ccc;
+				padding: 0 20px;
+				height: 30px;
+			}
+			.tab .hd ul{
+				list-style: none;
+			}
+			.tab .hd ul li{
+				float: left;
+				width: 172px;
+				height: 30px;
+				line-height: 30px;
+				text-align: center;
+				background-color: #ccc;
+				cursor: pointer;
+				position: relative;
+				z-index: 2;
+			}
+			.tab .hd ul li.cur{
+				border-bottom: none;
+				border-left: 1px solid #ccc;
+				border-right: 1px solid #ccc;
+				background-color: #fff;
+				border-top: 2px solid red;
+				height: 30px;
+			}
+			.tab .bd{
+				position: relative;
+				width: 560px;
+				height: 400px;
+				overflow: hidden;
+			}
+			.tab .bd .container{
+				width: 1680px;
+				height: 300px;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+			.tab .bd .container .info{
+				float: left;
+				width: 560px;
+			}
+			.tab .bd .container .info ul{
+				list-style: none;
+				padding-top: 10px;
+				line-height: 175%;
+			}
+			.tab .bd .container .info ul li{
+				border-bottom: 1px dashed #ccc;
+			}
+        </style>
+        <script type="text/javascript" src="jquery-1.11.2.min.js"></script>
+        <script type="text/javascript">
+        	$(document).ready(function(){
+        		$(".tab .hd ul li").click(function(){
+        			$(".tab .bd .container").animate(
+        				{
+        					"left" : -560 * $(this).index()
+        				}
+        				,
+        				1000
+        			);
+
+        			$(this).addClass("cur").siblings().removeClass("cur");
+        		});
+        	});
+        </script>
+    </head>
+    <body>
+    	<div class="tab">
+    		<div class="hd">
+    			<ul>
+    				<li class="cur">网上购票常见问题</li>
+    				<li>铁路常识货运办理</li>
+    				<li>常见问题</li>
+    			</ul>
+    		</div>
+    		<div class="cl"></div>
+    		<div class="bd">
+    			<div class="container">
+    				<div class="info">
+    					<ul>
+    						<li><a href="#">网上购票常见问题网上购票常见问题网上购票常见问题网上购票常见问题</a></li>
+    						<li><a href="#">网上购票常见问题网上购票常见问题网上购票常见问题网上购票常见问题</a></li>
+    						<li><a href="#">网上购票常见问题网上购票常见问题网上购票常见问题网上购票常见问题</a></li>
+    						<li><a href="#">网上购票常见问题网上购票常见问题网上购票常见问题网上购票常见问题</a></li>
+    						<li><a href="#">网上购票常见问题网上购票常见问题网上购票常见问题网上购票常见问题</a></li>
+    						<li><a href="#">网上购票常见问题网上购票常见问题网上购票常见问题网上购票常见问题</a></li>
+    						<li><a href="#">网上购票常见问题网上购票常见问题网上购票常见问题网上购票常见问题</a></li>
+    						<li><a href="#">网上购票常见问题网上购票常见问题网上购票常见问题网上购票常见问题</a></li>
+    						<li><a href="#">网上购票常见问题网上购票常见问题网上购票常见问题网上购票常见问题</a></li>
+    						<li><a href="#">网上购票常见问题网上购票常见问题网上购票常见问题网上购票常见问题</a></li>
+    					</ul>
+    				</div>
+    				<div class="info">
+    					<ul>
+    						<li><a href="#">铁路常识货运办理铁路常识货运办理铁路常识货运办理铁路常识货运办理</a></li>
+    						<li><a href="#">铁路常识货运办理铁路常识货运办理铁路常识货运办理铁路常识货运办理</a></li>
+    						<li><a href="#">铁路常识货运办理铁路常识货运办理铁路常识货运办理铁路常识货运办理</a></li>
+    						<li><a href="#">铁路常识货运办理铁路常识货运办理铁路常识货运办理铁路常识货运办理</a></li>
+    						<li><a href="#">铁路常识货运办理铁路常识货运办理铁路常识货运办理铁路常识货运办理</a></li>
+    						<li><a href="#">铁路常识货运办理铁路常识货运办理铁路常识货运办理铁路常识货运办理</a></li>
+    						<li><a href="#">铁路常识货运办理铁路常识货运办理铁路常识货运办理铁路常识货运办理</a></li>
+    						<li><a href="#">铁路常识货运办理铁路常识货运办理铁路常识货运办理铁路常识货运办理</a></li>
+    						<li><a href="#">铁路常识货运办理铁路常识货运办理铁路常识货运办理铁路常识货运办理</a></li>
+    						<li><a href="#">铁路常识货运办理铁路常识货运办理铁路常识货运办理铁路常识货运办理</a></li>
+    					</ul>
+    				</div>
+    				<div class="info">
+    					<ul>
+    						<li><a href="#">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</a></li>
+    						<li><a href="#">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</a></li>
+    						<li><a href="#">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</a></li>
+    						<li><a href="#">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</a></li>
+    						<li><a href="#">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</a></li>
+    						<li><a href="#">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</a></li>
+    						<li><a href="#">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</a></li>
+    						<li><a href="#">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</a></li>
+    						<li><a href="#">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</a></li>
+    						<li><a href="#">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</a></li>
+    					</ul>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </body>
+</html>

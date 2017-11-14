@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		*{ margin: 0; padding: 0; }
+		.carousel{width: 790px; height: 360px; margin: 100px auto; position: relative; overflow: hidden; }
+		.carousel ul.imageslist{position: absolute;top:0;left:0;list-style: none; width: 9000px;}
+		.carousel ul.imageslist li{float: left;}
+		.carousel .buttons a{display: block; width: 23px; height: 47px; background: url(images/icons.png) no-repeat; cursor: pointer;}
+		.carousel .buttons .leftBtn{position: absolute; top: 50% ; left:10px; background-position: 0px -172px; margin-top: -23px;}
+		.carousel .buttons .rightBtn{position: absolute; top: 50% ; right:10px; background-position: -23px -219px; margin-top: -23px;}
+		.carousel .bg{position: absolute; bottom: 0 ; left: 0; width: 100%; height: 30px; background-color: black; opacity: 0.6; _filter:alpha(opacity=60);}
+		.carousel .num{position: absolute; bottom: 0 ; right:0; width: 200px;height: 20px; }
+		.carousel .num span{float: left; margin-right: 6px; width: 12px; height: 12px; background: white; background: url(images/icons.png) no-repeat 0 -12px;}
+		.carousel .num span.cur{background-position:0 0; }
+	</style>
+	<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery.easie.js"></script>
+</head>
+<body>
+	<div class="carousel">
+		<ul class="imageslist">
+			<li><a href="#"><img src="images/0.jpg" /></a></li>
+			<li><a href="#"><img src="images/1.jpg" /></a></li>
+			<li><a href="#"><img src="images/2.jpg" /></a></li>
+			<li><a href="#"><img src="images/3.jpg" /></a></li>
+			<li><a href="#"><img src="images/4.jpg" /></a></li>	 		 
+		</ul>
+		<div class="buttons">
+			<a class="leftBtn"></a>
+			<a class="rightBtn"></a>
+		</div>
+		<div class="bg"></div>
+		<div class="num">
+			<span class="cur"></span>
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/chuantong.js"></script>
+	<script type="text/javascript">
+		chuantong(300,4000,790);
+	</script>
+</body>
+</html>

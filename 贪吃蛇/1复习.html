@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>今天天气不错</title>
+</head>
+<body>
+
+<button id="btn">按钮</button>
+<script>
+  //面向对象的基本概念：
+  //面向对象和面向过程是编程的两种思想
+  //面向过程：专注与程序的细节
+  //面向对象：专注与对象（知道我需要什么样的功能，找到可以帮我完成功能的对象即可）
+  
+  //不能说面向对象比面向过程好
+  
+  //对象的基础操作：
+  //1 创建方式：工厂模式函数  构造函数
+  //2 构造函数创建方式的优点：步骤少
+  //3 构造函数的缺点： 由于方法的值是相同的，但是每个实例对象中均会进行单独保存，造成了空间的浪费
+  
+  function Create() {
+    this.name = "张三";
+    this.sayHi = function () {
+      console.log("你好我是张三");
+    };
+  }
+  //var c1 = new Create();
+  //var c2 = new Create();
+  //console.log(c1.sayHi == c2.sayHi);//false
+  
+  //4 基本的解决方式：命名函数的方式 对象保存的方式
+  
+  //5 原型对象：
+  //  每个函数都有一个prototype属性，叫做原型属性，值是一个对象，所以称为原型对象
+  //  作用：用于保存使用构造函数创建的实例对象中的共有属性(属性和方法)
+  //  实例对象不仅可以使用自身的属性，还可以使用构造函数的原型对象中的属性。
+  //  当使用一个实例对象的属性时，首先对自身进行查找，如果有，使用，如果没有，查找__proto__，找到进行使用
+  //  实例对象的__proto__属性值和构造函数的prototype属性实际上是同一个对象，所以可以进行访问
+  
+  //  为什么实例对象会具有__proto__属性呢？实际上是new在进行对象创建时，进行设置的.
+  
+  
+  //6 this的使用
+  // 基本概念：指向函数调用者。
+  // 我们给出的简便理解方式：
+  
+  // 6.1 普通方法中指向了这个方法前面的那个对象
+  //var obj = {
+  //  name: "张三",
+  //  sayHi: function () {
+  //    console.log(this);
+  //    //console.log("你好，我是" + this.name);
+  //  }
+  //};
+  //obj.sayHi();
+  
+  // 6.2 事件中this指向事件源
+  //var btn = document.getElementById("btn");
+  //btn.onclick = function () {
+  //  console.log(this);
+  //  console.log("我是btn的点击事件");
+  //};
+  
+  // 6.3 原型的方法中指向实例对象。
+  //function Create() {
+  //  this.name ="张三";
+  //}
+  //Create.prototype.sayHi = function () {
+  //  console.log(this);
+  //  console.log(this.name);
+  //};
+  //var c1 = new Create();
+  //c1.sayHi();
+  
+  //6.4 在方法以外的函数中使用没有意义，默认指向window对象
+  //function fun() {
+  //  console.log(this);
+  //}
+  //fun();
+  
+  //7 原型的使用方式
+  //7.1 保存共有属性
+  //7.2 给内置对象添加属性
+  //我们发现内置对象的创建方式也是使用构造函数，使用的值实际上也是实例对象
+  //Array.prototype.sayHi = function () {
+  //  console.log("你好，我是sayHi");
+  //  console.log(this);
+  //};
+  //var arr = [1,2,3];
+  //arr.sayHi();
+  
+  
+  //8 自调用函数（立即执行函数）
+  (function (window, document) {
+    //以后我们书写的每段功能均要使用自调用函数包裹
+    //如果当前自调用中的一些功能值需要被外界访问，可以暴露给window对象
+    var xiaoShe = "我是一个小蛇";
+    window.xiaoShe = xiaoShe;
+  })(window, document);
+
+
+</script>
+
+</body>
+</html>

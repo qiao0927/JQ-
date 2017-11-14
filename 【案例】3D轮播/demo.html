@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		#xuanzhuanjigou{
+			width: 560px;
+			height: 300px;
+			margin: 100px auto;
+			border: 1px solid #000;
+			position: relative;
+
+			-webkit-transform-style:preserve-3d;
+		}
+		#xuanzhuanjigou ul{
+			list-style: none;
+		}
+		#xuanzhuanjigou ul li{
+			position: absolute;
+			width: 112px;
+			height: 300px;
+			-webkit-transform-style:preserve-3d;
+			transition:all 1s ease 0s;
+		}
+		#xuanzhuanjigou ul li.no1{
+			top: 0;
+			left: 0;
+
+		}
+		#xuanzhuanjigou ul li.no2{
+			top: 0;
+			left: 112px;
+			transition:all 1s ease 0.4s;
+		}
+		#xuanzhuanjigou ul li.no3{
+			top: 0;
+			left: 224px;
+			transition:all 1s ease 0.6s;
+		}
+		#xuanzhuanjigou ul li.no4{
+			top: 0;
+			left: 336px;
+			transition:all 1s ease 0.8s;
+		}
+		#xuanzhuanjigou ul li.no5{
+			top: 0;
+			left: 448px;
+			transition:all 1s ease 1.0s;
+		}
+		#xuanzhuanjigou ul li .mianA{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 112px;
+			height: 300px;
+			background: url(0.jpg);
+			-webkit-transform:translateZ(150px);
+			z-index: 2;
+			-webkit-backface-visibility:hidden;
+		}
+		#xuanzhuanjigou ul li .mianB{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 112px;
+			height: 300px;
+			background: url(1.jpg);
+			-webkit-transform:rotateX(90deg) translateZ(150px);
+			-webkit-backface-visibility:hidden;
+		}
+		#xuanzhuanjigou ul li .mianC{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 112px;
+			height: 300px;
+			background: url(2.jpg);
+			-webkit-transform:rotateX(180deg) translateZ(150px);
+			-webkit-backface-visibility:hidden;
+		}
+		#xuanzhuanjigou ul li .mianD{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 112px;
+			height: 300px;
+			background: url(3.jpg);
+			-webkit-transform:rotateX(-90deg) translateZ(150px);
+			-webkit-backface-visibility:hidden;
+		}
+		#xuanzhuanjigou ul li:nth-child(2) .mianA{
+			background-position: -112px 0;
+		}
+		#xuanzhuanjigou ul li:nth-child(3) .mianA{
+			background-position: -224px 0;
+		}
+		#xuanzhuanjigou ul li:nth-child(4) .mianA{
+			background-position: -336px 0;
+		}
+		#xuanzhuanjigou ul li:nth-child(5) .mianA{
+			background-position: -448px 0;
+		}
+		#xuanzhuanjigou ul li:nth-child(2) .mianB{
+			background-position: -112px 0;
+		}
+		#xuanzhuanjigou ul li:nth-child(3) .mianB{
+			background-position: -224px 0;
+		}
+		#xuanzhuanjigou ul li:nth-child(4) .mianB{
+			background-position: -336px 0;
+		}
+		#xuanzhuanjigou ul li:nth-child(5) .mianB{
+			background-position: -448px 0;
+		}
+			#xuanzhuanjigou ul li:nth-child(2) .mianC{
+			background-position: -112px 0;
+		}
+		#xuanzhuanjigou ul li:nth-child(3) .mianC{
+			background-position: -224px 0;
+		}
+		#xuanzhuanjigou ul li:nth-child(4) .mianC{
+			background-position: -336px 0;
+		}
+		#xuanzhuanjigou ul li:nth-child(5) .mianC{
+			background-position: -448px 0;
+		}
+			#xuanzhuanjigou ul li:nth-child(2) .mianD{
+			background-position: -112px 0;
+		}
+		#xuanzhuanjigou ul li:nth-child(3) .mianD{
+			background-position: -224px 0;
+		}
+		#xuanzhuanjigou ul li:nth-child(4) .mianD{
+			background-position: -336px 0;
+		}
+		#xuanzhuanjigou ul li:nth-child(5) .mianD{
+			background-position: -448px 0;
+		}
+		 
+	</style>
+	<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(
+			function(){
+				var a = 0;
+				$("input").click(
+					function(){
+						a++;
+						$("li").css("-webkit-transform","rotateX(" + -90*a +"deg)");
+					}
+				);
+			}
+		);
+	</script>
+</head>
+<body>
+	<input type="button" value="********">
+	<div id="xuanzhuanjigou" class="huan1">
+		<ul>
+			<li class="no1">
+				<span class="mianA"></span>
+				<span class="mianB"></span>
+				<span class="mianC"></span>
+				<span class="mianD"></span>
+			</li>
+			<li class="no2">
+				<span class="mianA"></span>
+				<span class="mianB"></span>
+				<span class="mianC"></span>
+				<span class="mianD"></span>
+			</li>
+			<li class="no3">
+				<span class="mianA"></span>
+				<span class="mianB"></span>
+				<span class="mianC"></span>
+				<span class="mianD"></span>
+			</li>
+			<li class="no4">
+				<span class="mianA"></span>
+				<span class="mianB"></span>
+				<span class="mianC"></span>
+				<span class="mianD"></span>
+			</li>
+			<li class="no5">
+				<span class="mianA"></span>
+				<span class="mianB"></span>
+				<span class="mianC"></span>
+				<span class="mianD"></span>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>

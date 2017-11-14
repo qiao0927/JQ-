@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		body,html{
+			height: 100%;
+			overflow: hidden;
+		}
+		.page{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: pink;
+			-webkit-transform:translateY(100%);
+			transform:translateY(100%);
+		}
+		.page0{
+			-webkit-transform:none;
+		}
+		.page0{background:pink;}
+		.page1{background:orange;}
+		.page2{background:green;}
+		.page3{background:blue;}
+		.page4{background:#ccc;}
+		.page5{background:gold;}
+		.hua{
+			position: fixed;
+			bottom: 10px;
+			left: 50%;
+			width: 110px;
+			height: 110px;
+			background: url(images/hua.png);
+			-webkit-transform:translateX(-50%);
+			-webkit-animation:dongdong 0.4s linear 0s infinite alternate;
+			z-index: 10;
+		}
+		@-webkit-keyframes dongdong{
+			from{
+				bottom: 10px;
+			}
+			to{
+				bottom: 30px;
+			}
+		}
+		
+		
+		.page0 h1{
+			position: absolute;
+			font-size: 32px;
+			top: 40%;
+			left: 50%;
+			-webkit-transform:translate(-50%,-50%);
+		}
+
+		.page1 img{
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			-webkit-transform:translate(-50%,-50%);
+		}
+		.page1 h3{
+			position: absolute;
+			top: 30%;
+			left: 50%;
+			width: 300px;
+			margin-left: -150px;
+			-webkit-transition:all 2s ease 0s;
+		}
+		.page1.cur h3{
+			-webkit-transform:rotate(720deg);
+		}
+
+	</style>
+	<script type="text/javascript" src="zeptoWithFxTouch.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var startY;			//起始坐标
+			var dY;				//坐标差值
+			var nowPage = 0;	//信号量
+			var $nowPage = $(".page0");				//一开始page0是当前页面
+			var $nextPage = $(".page1");			//一开始page1是下一个页面
+			var $prevPage = null;					//一开始的时候，没有上一页。
+			var windowHeight = $(window).height();	//窗口高
+			var $pages = $(".page");				//所有page
+ 
+			
+			$(document).on("touchstart",function(event){
+				//开始触摸
+				//1. 记录用户开始触摸的Y坐标，存为startY
+				var finger = event.touches[0];
+				startY = finger.pageY;
+				// console.log("开始坐标已经记录",startY);
+
+				$nowPage.css("z-index","1");
+				if($prevPage){
+					$prevPage.css("z-index","2");
+				}
+				if($nextPage){
+					$nextPage.css("z-index","2");
+				}
+			});
+
+			$(document).on("touchmove",function(event){
+				//触摸滑动
+				//1. 记录用户当前的Y坐标，并且与startY进行比较。差值dY。
+				//	 如果dY>0，表示用户往下滑；dY<0用户往上滑
+				//2. 下一个页面、上一个页面，根据dY的情况进行CSS的改变。
+				event.preventDefault();	//阻止页面滑动
+				var finger = event.touches[0];
+				dY = finger.pageY - startY;
+				// console.log("坐标差",dY);
+
+				if(dY < 0 && $nextPage){
+					//往上滑，应该显示下一页，当前页面进行scale动画
+					$nextPage.css("-webkit-transform","translateY(" + (windowHeight + dY) + "px)");
+					$nowPage.css("-webkit-transform","scale(" + ((windowHeight - Math.abs(dY) / 3) / windowHeight) + ")");
+				}else if(dY > 0 && $prevPage){
+					$prevPage.css("-webkit-transform","translateY(" + (-windowHeight + dY) + "px)");
+					$nowPage.css("-webkit-transform","scale(" + ((windowHeight - Math.abs(dY) / 3) / windowHeight) + ")");
+				}
+			});
+
+			$(document).on("touchend",function(event){
+				//结束触摸
+				//1. 就是判定滑动是否成功，如果成功改变信号量。
+				//	 无论是否成功，这时候都要把未完成的滑动，以动画形式完成。
+				//2. 为下一次的魔术，进行布局。
+
+				//dY是负数的情况，也就是用户再上滑操作：
+				if(dY < - windowHeight / 3){
+					//用户往上滑，如果滑超过了屏幕高度的1/3，视为成功
+					if($nextPage){
+						$nextPage.animate({"-webkit-transform":"none"},300);
+						$nowPage.animate({"-webkit-transform":"scale(0)"},300);
+					}
+					if(nowPage < 5){
+						nowPage++;
+						setTimeout(initial,300);	//调用函数。
+					}
+				}else if(dY < 0){
+					//用户往上滑，没有超过了屏幕高度的1/3，视为失败
+					if($nextPage){
+						$nextPage.animate({"-webkit-transform":"translateY(100%)"},300);
+						$nowPage.animate({"-webkit-transform":"scale(1)"},300);
+					}
+				}
+
+				//dY是正数的时候，也就是用户往下滑：
+				if(dY > windowHeight / 3){
+					//成功
+					if($prevPage){
+						$prevPage.animate({"-webkit-transform":"none"},300);
+						$nowPage.animate({"-webkit-transform":"scale(0)"},300);
+					}
+					if(nowPage > 0){
+						nowPage--;
+						setTimeout(initial,300);	//调用函数。
+					}
+				}else if(dY > 0){
+					//失败
+					if($prevPage){
+						$prevPage.animate({"-webkit-transform":"translateY(-100%)"},300);
+						$nowPage.animate({"-webkit-transform":"scale(1)"},300);
+					}
+				}
+
+			});
+
+			//这个函数，就是根据信号量，决定谁是$nowpage、$nextPage、$prevPage、并且进行布局。
+			function initial(){
+				//根据信号量，决定谁是$nowpage、$nextPage、$prevPage
+				$nowPage = $pages.eq(nowPage);
+				//进行布局
+				$nowPage.css("-webkit-transform","none");
+				
+
+				if(nowPage < 5){
+					$nextPage = $pages.eq(nowPage + 1);
+					$nextPage.css("-webkit-transform","translateY(100%)");
+					$(".hua").show();
+				}else{
+					$nextPage = null;
+					$(".hua").hide();
+				}
+
+				if(nowPage > 0){
+					$prevPage = $pages.eq(nowPage - 1);
+					$prevPage.css("-webkit-transform","translateY(-100%)");
+				}else{
+					$prevPage = null;
+				}
+
+				$nowPage.addClass("cur").siblings().removeClass("cur");
+			}
+		});
+	</script>
+</head>
+<body>
+	<audio src="1.mp3" autoplay></audio>
+	<div class="page page0 cur">
+		<h1>老高我们爱你</h1>
+	</div>
+	<div class="page page1">
+		<h3>还记得你那帅气的样子，我们很想你。</h3>
+		<img src="images/laogao.jpg" alt="">
+	</div>
+	<div class="page page2">
+		<h1>赶紧回来看看！！！</h1>
+	</div>
+	<div class="page page3">
+		<h1>后天就毕业了！！</h1>
+	</div>
+	<div class="page page4">
+		<h1>懒得做了</h1>
+	</div>
+	<div class="page page5">
+		<h1>懒得做了</h1>
+	</div>
+	<div class="hua"></div>
+</body>
+</html>

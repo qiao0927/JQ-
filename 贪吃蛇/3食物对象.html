@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>今天天气不错</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    
+    #map {
+      width: 800px;
+      height: 600px;
+      background-color: #CCCCCC;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+<div id="map">
+
+</div>
+
+
+<script>
+  //食物的构造函数：
+  (function () {
+    
+    function Food(options) {
+      //构造函数中使用对象参数的好处：传参的顾虑比较少，可扩展性强
+      //食物需要设置的属性：宽高背景色，横坐标纵坐标，地图
+      this.width = options.width || 20;          //保存食物盒子宽度
+      this.height = options.height || 20;        //保存食物盒子高度
+      this.bgColor = options.bgColor || "green"; //保存食物盒子背景色
+      this.map = options.map;                    //保存地图
+      //x和y属性保存的是坐标（当前处于哪一个格子，不是具体的left和top值）
+      this.x = 0;//在初始化食物的阶段，进行随机值的设置
+      this.y = 0;
+      this.element;                              //这是用来保存食物的结构的属性
+    }
+    
+    Food.prototype.init = function () {
+      //6 通过功能分析，我们发现每当一个食物被吃掉后，都需要重新创建新的食物，创建之前需要先删除被吃掉的旧食物
+      //6.1 如何找到旧的那个食物？谁表示食物？this.element用于保存食物的盒子，只需要对内部值进行判断即可
+      if (this.element) {
+        //说明已经具有旧的食物了，删除
+        this.map.removeChild(this.element);
+      }
+      //将食物创建出来，并且进行样式的设置
+      //1 创建结构
+      this.element = document.createElement("div");
+      var div = this.element;//保存，方便后面书写使用
+      //2 设置基本样式
+      div.style.width = this.width + "px";
+      div.style.height = this.height + "px";
+      div.style.backgroundColor = this.bgColor;
+      div.style.position = "absolute";//定位
+      //3 计算出随机的坐标值 : Math.floor(Math.random()*地图宽/食物盒子宽);
+      this.x = Math.floor(Math.random() * this.map.offsetWidth / this.width);
+      this.y = Math.floor(Math.random() * this.map.offsetHeight / this.height);
+      //4 根据取出的随机坐标位置，设置left和top即可
+      div.style.left = this.x * this.width + "px";
+      div.style.top = this.y * this.height + "px";
+      //5 放入到地图中
+      this.map.appendChild(div);
+    };
+    
+    
+    var mapDiv = document.getElementById("map");
+    var f1 = new Food({map: mapDiv});
+    f1.init();
+    f1.init();
+    
+  })();
+
+
+</script>
+</body>
+</html>

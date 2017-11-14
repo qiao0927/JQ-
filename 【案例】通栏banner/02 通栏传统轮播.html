@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		.lunbo{
+			overflow: hidden;
+			height: 435px;
+			width: 100%;
+			position: relative;
+		}
+		.lunbo ul{
+			list-style: none;
+			width: 500%;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+		.lunbo ul li{
+			float: left;
+			width: 20%;
+			height: 435px;
+		}
+		.lunbo ul li.no0{
+			background:rgb(7, 5, 18) url(images1/1.jpg) no-repeat center center;
+		}
+		.lunbo ul li.no1{
+			background:rgb(0, 0, 0) url(images1/2.jpg) no-repeat center center;
+		}
+		.lunbo ul li.no2{
+			background:rgb(67, 163, 249) url(images1/3.jpg) no-repeat center center;
+		}
+		.lunbo ul li.no3{
+			background:rgb(3, 3, 5) url(images1/4.jpg) no-repeat center center;
+		}
+		.lunbo .buttons{
+			width: 980px;
+			background-color: blue;
+			margin: 0 auto;
+			position: relative;
+		}
+		.lunbo .buttons .leftBut{
+			width: 50px;
+			height: 50px;
+			position: absolute;
+			left: 0px;
+			top: 140px;
+			background-color: red;
+			cursor: pointer;
+		}
+		.lunbo .buttons .rightBut{
+			width: 50px;
+			height: 50px;
+			position: absolute;
+			right: 0px;
+			top: 140px;
+			background-color: red;
+			cursor: pointer;
+		}
+	</style>
+	<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="chuantongV3.js"></script>
+	<script type="text/javascript">
+		window.onload = function(){
+			chuantongV3(400,2000);
+		}	
+	</script>
+</head>
+<body>
+	<div class="lunbo chuantong">
+		<ul class="imagelist">
+			<li class="no0"><a href="#"></a></li>
+			<li class="no1"><a href="#"></a></li>
+			<li class="no2"><a href="#"></a></li>
+			<li class="no3"><a href="#"></a></li>
+		</ul>
+		<div class="buttons">
+			<span class="leftBut"></span>
+			<span class="rightBut"></span>
+		</div>
+	</div>
+</body>
+</html>

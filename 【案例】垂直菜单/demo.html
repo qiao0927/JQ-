@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+        ul,li{list-style: none;}
+		.nav{
+			width: 180px;
+			margin: 100px;
+			border: 1px solid #000;
+            background: #ccc;
+		}
+		.nav ul li{
+			line-height: 30px;
+			padding-left: 20px;
+			position: relative;
+			z-index: 8;
+		}
+		.nav ul li a{
+            text-decoration: none;
+			padding-right:20px;
+		}
+		.nav ul li .zicaidan{
+			position: absolute;
+			left:170px;
+			top: -20px;
+			width: 500px;
+			height: 350px;
+			border: 1px solid #000;
+			background-color: pink;
+			display: none;
+		}
+		.nav ul li.cur{
+			background: #fff;
+		}
+	</style>
+	<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+            $(".nav ul li").mouseenter(function(){
+                $(this).addClass("cur").children(".zicaidan").show();
+            }).mouseleave(function(){
+                $(this).removeClass("cur").children(".zicaidan").hide();
+            });
+        })
+	</script>
+</head>
+<body>
+	<div class="nav">
+		<ul>
+			<li>
+				<a href="#">产品</a>
+				<a href="#">产品</a>
+				<div class="zicaidan"></div>
+			</li>
+			<li>
+				<a href="#">产品</a>
+				<a href="#">产品</a>
+				<s></s>
+				<div class="zicaidan"></div>
+			</li>
+			<li>
+				<a href="#">产品</a>
+				<a href="#">产品</a>
+				<div class="zicaidan"></div>
+			</li>
+			<li>
+				<a href="#">产品</a>
+				<a href="#">产品</a>
+				<div class="zicaidan"></div>
+			</li>
+			<li>
+				<a href="#">产品</a>
+				<a href="#">产品</a>
+				<div class="zicaidan"></div>
+			</li>
+			<li>
+				<a href="#">产品</a>
+				<a href="#">产品</a>
+				<div class="zicaidan"></div>
+			</li>
+			<li>
+				<a href="#">产品</a>
+				<a href="#">产品</a>
+				<div class="zicaidan"></div>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>

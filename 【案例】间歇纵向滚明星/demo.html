@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		.mingxing{
+			width: 290px;
+			height:115px;
+			border: 1px solid #000;
+			position: relative;
+			margin:100px auto;
+			overflow: hidden;
+		}
+		.mingxing ul{
+			list-style: none;
+			width: 300px;
+			position: absolute;
+			top:0;
+			left:0;
+		}
+		.mingxing ul li{
+			float: left;
+			width: 90px;
+			height:115px;
+			margin-right: 10px;
+			margin-bottom:10px;
+		}
+	</style>
+	<script type="text/javascript" src="jquery-1.11.2.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+
+			//根据现在图片的个数，来补充空白li。目的是为了不穿帮。
+			//如果当前图片的数量除以3余数是1，那么补充2个空白li
+			//如果当前图片的数量除以3余数是2，那么补充1个空白li
+			var imageAmount = $(".mingxing ul li").length;  //得到个数
+
+			if(imageAmount % 3 === 1){
+				$("<li></li><li></li>").appendTo(".mingxing ul");
+			}else if(imageAmount % 3 === 2){
+				$("<li></li>").appendTo(".mingxing ul");
+			}
+
+			//克隆，克隆假的第一行。猫腻。
+			//lt3表示序号小于3的li。就是0、1、2号li。
+			$(".mingxing ul li:lt(3)").clone().appendTo(".mingxing ul");
+
+			//行的总数量。
+			var rowAmout = $(".mingxing ul li").length / 3;	
+
+			var nowRow = 0;	//信号量，当前行
+
+			function rightButFunc(){
+				if(nowRow < rowAmout - 2){
+					nowRow ++;
+					$(".mingxing ul").animate({"top":-125 * nowRow},500);
+				}else{
+					nowRow = 0 ;
+					$(".mingxing ul").animate({"top":-125 * (rowAmout - 1)} ,500 , function(){
+						$(this).css("top",0);
+					});
+				}
+			}
+
+			var timer = setInterval(rightButFunc, 2000);
+
+			$(".mingxing").mouseenter(function(){
+				clearInterval(timer);
+			});
+
+			$(".mingxing").mouseleave(function(){
+				clearInterval(timer);
+				timer = setInterval(rightButFunc, 2000);
+			});
+		});
+	</script>
+</head>
+<body>
+	<div class="mingxing">
+		<ul>
+			<li><a href="#"><img src="images/0.png" alt="" /></a></li>
+			<li><a href="#"><img src="images/1.png" alt="" /></a></li>
+			<li><a href="#"><img src="images/2.png" alt="" /></a></li>
+			<li><a href="#"><img src="images/3.png" alt="" /></a></li>
+			<li><a href="#"><img src="images/4.png" alt="" /></a></li>
+			<li><a href="#"><img src="images/5.png" alt="" /></a></li>
+			<li><a href="#"><img src="images/6.png" alt="" /></a></li>
+			<li><a href="#"><img src="images/7.png" alt="" /></a></li>
+		</ul>
+	</div>
+</body>
+</html>

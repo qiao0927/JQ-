@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		.xiaotu{
+			width: 350px;
+			height: 350px;
+			border: 1px solid #000;
+			position: relative;
+			left: 100px;
+			top: 100px;
+			float: left;
+		}
+		.xiaotu .fangdajing{
+			width: 175px;
+			height: 175px;
+			border: 1px solid #aaa;
+			background-color: #FEDE4F;
+			opacity: 0.6;
+			position: absolute;
+			left: 0;
+			top: 0;
+			cursor: move;display:none;
+		}
+		.datu{
+			width: 400px;
+			height: 400px;
+			border: 1px solid #000;
+			float: left;
+			position: relative;
+			top: 100px;
+			left: 140px;
+			background:url(datu.jpg) no-repeat;
+			background-position: -100px 100px;
+			display:none;
+		}
+	</style>
+	<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(
+			function(){
+				$(".xiaotu").mousemove(
+					function(e){
+						//计算盒子内的鼠标位置：
+						var x = e.pageX - $("div.xiaotu").offset().left;
+						var y = e.pageY - $("div.xiaotu").offset().top;
+						
+						//验收，保证放大镜，不能移出盒子
+						if(x < 87.5){
+							x = 87.5;
+						}
+						
+						if(y < 87.5){
+							y = 87.5;
+						}
+
+						if(x > 350 - 87.5){
+							x = 350 - 87.5;
+						}
+						if(y > 350 - 87.5){
+							y = 350 -87.5;
+						}
+
+						//让放大镜跟随鼠标：
+						$(".xiaotu .fangdajing").css(
+							{
+								"left":x - 87.5,
+								"top":y - 87.5
+							}	
+						);
+
+						//让大图的background-position，等比例变化
+						var beijingx = -(400/175) * (x - 87.5);
+						var beijingy = -(400/175) * (y - 87.5);
+						$(".datu").css("background-position",beijingx + "px " + beijingy + "px");
+					}
+				);
+				
+				$(".xiaotu").mouseenter(
+					function(){
+						$(".fangdajing").show();
+						$(".datu").show()
+					}
+				)
+				
+				$(".xiaotu").mouseleave(
+					function(){
+						$(".fangdajing").hide();
+						$(".datu").hide()
+					}
+				)
+			}
+		);
+	</script>
+</head>
+<body>
+	<div class="xiaotu">
+		<div class="fangdajing"></div>
+		<img src="xiaotu.jpg" alt="" />
+	</div>
+	<div class="datu"></div>
+</body>
+</html>

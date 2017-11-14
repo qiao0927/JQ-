@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		.carousel {
+			width: 790px;
+			height: 360px;
+			margin: 100px auto;
+			position: relative;
+		}
+
+		.carousel ul.imageslist {
+			top: 0;
+			left: 0;
+			list-style: none;
+		}
+
+		.carousel ul.imageslist li {
+			position: absolute;
+			top: 0;
+			left: 0;
+			/*现在，所有的li都是落在一起的，让所有的li隐藏*/
+			display: none;
+		}
+		.carousel ul.imageslist li.cur{
+			display: block;
+		}
+
+		.carousel .buttons a {
+			display: block;
+			width: 23px;
+			height: 47px;
+			background: url(images/icons.png) no-repeat;
+			cursor: pointer;
+		}
+
+		.carousel .buttons .leftBtn {
+			position: absolute;
+			top: 50%;
+			left: 10px;
+			background-position: 0px -172px;
+			margin-top: -23px;
+		}
+
+		.carousel .buttons .rightBtn {
+			position: absolute;
+			top: 50%;
+			right: 10px;
+			background-position: -23px -219px;
+			margin-top: -23px;
+		}
+
+		.carousel .bg {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 30px;
+			background-color: black;
+			opacity: 0.6;
+			_filter: alpha(opacity=60);
+		}
+
+		.carousel .num {
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			width: 200px;
+			height: 20px;
+		}
+
+		.carousel .num span {
+			float: left;
+			margin-right: 6px;
+			width: 12px;
+			height: 12px;
+			background: white;
+			background: url(images/icons.png) no-repeat 0 -12px;
+		}
+
+		.carousel .num span.cur {
+			background-position: 0 0;
+		}
+		.fadeCover{
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			background-color: black;
+			display: none;
+		}
+	</style>
+	<script type="text/javascript" src="jquery-1.11.2.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			
+			var nowimg = 0;
+			$(".rightBtn").click(function(){
+				nowimg++;
+				if(nowimg > $(".imageslist li").length - 1){
+					nowimg = 0;
+				}
+				$(".fadeCover").fadeIn(100,changePicAndFadeOut);
+			});
+
+			$(".num span").click(function(){
+				nowimg = $(this).index();
+				$(".fadeCover").fadeIn(100,changePicAndFadeOut);
+			});
+
+			function changePicAndFadeOut(){
+				//换图
+				$(".imageslist li").eq(nowimg).addClass("cur").siblings().removeClass("cur");
+				//淡出
+				$(this).fadeOut(400);
+				//小圆点换 cur：
+				$(".num span").eq(nowimg).addClass("cur").siblings().removeClass("cur");
+			}
+		});
+	</script>
+</head>
+<body>
+	<div class="carousel">
+		<ul class="imageslist">
+			<li class="cur"><a href="#"><img src="images/0.jpg" /></a></li>
+			<li><a href="#"><img src="images/1.jpg" /></a></li>
+			<li><a href="#"><img src="images/2.jpg" /></a></li>
+			<li><a href="#"><img src="images/3.jpg" /></a></li>
+			<li><a href="#"><img src="images/4.jpg" /></a></li>
+			<li><a href="#"><img src="images/5.jpg" /></a></li>
+			<li><a href="#"><img src="images/6.jpg" /></a></li>
+		</ul>
+		<div class="fadeCover"></div>
+		<div class="buttons">
+			<a class="leftBtn"></a>
+			<a class="rightBtn"></a>
+		</div>
+		<div class="bg"></div>
+		<div class="num">
+			<span class="cur"></span>
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+	</div>
+</body>
+</html>

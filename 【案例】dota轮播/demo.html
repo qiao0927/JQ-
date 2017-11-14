@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>作业2：dota</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		.box{
+			width: 570px;
+			height: 230px;
+			border:5px solid #C19E6A;
+			margin: 100px auto;
+			position: relative;
+		 	overflow: hidden;
+		}
+		.box .imglist{
+			list-style: none;
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+		.box .imglist li{
+			width: 380px;
+			height: 230px;
+		}
+		.box .links{
+			list-style: none;
+			float: right;
+			width: 180px;
+			height: 220px;
+			background-color: #100F13;
+			padding: 5px;
+		}
+		.box .links li{
+			width: 180px;
+			height: 44px;
+			background: url(ui.png) no-repeat 0 -182px;
+		}
+		.box .links li.cur{
+			background-position: 0 -138px;
+		}
+		.box .links li a{
+			display: block;
+			width: 155px;
+			height: 44px;
+			font-size: 12px;
+			color: #aaa;
+			text-decoration: none;
+			padding-left:25px;
+			line-height: 44px;
+		}
+	</style>
+	<script type="text/javascript" src="jquery-1.11.2.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			//复制
+			$(".box .imglist li:first").clone().appendTo(".box .imglist");
+
+			var nowimg = 0;
+
+		 
+			function rightButFunc(){
+				if(nowimg < 4){
+					nowimg ++;
+					normalAnimate();
+				}else{
+					nowimg = 0;
+					$(".imglist").animate({"top" : -230 * 5} , 400 , function(){
+						$(this).css("top" , 0);
+					});
+				}
+				setCircle();
+			}
+
+			$(".links li").click(function(){
+				nowimg = $(this).index();
+				normalAnimate();
+				setCircle();
+			});
+
+			function normalAnimate(){
+				$(".imglist").animate({"top" : -230 * nowimg} , 1000);
+			}
+
+			function setCircle(){
+				$(".links li").eq(nowimg).addClass('cur').siblings().removeClass("cur");
+			}
+
+			var timer = setInterval(rightButFunc , 5000);
+
+			$(".box").mouseenter(function(){
+				clearInterval(timer);
+			});
+
+			$(".box").mouseleave(function(){
+				clearInterval(timer);
+				timer = setInterval(rightButFunc , 5000);
+			});
+		});
+	</script>
+</head>
+<body>
+	<div class="box">
+		<ul class="imglist">
+			<li><img src="1.jpg"/></li>
+			<li><img src="2.jpg"/></li>
+			<li><img src="3.jpg"/></li>
+			<li><img src="4.jpg"/></li>
+			<li><img src="5.jpg"/></li>
+		</ul>
+		<ul class="links">
+			<li class="cur"><a href="javascript:;">TS巅峰联赛第二赛季 VG</a></li>
+			<li><a href="javascript:;">DOTA2萌妹子专访：爱玩</a></li>
+			<li><a href="javascript:;">水友原创：关于玩好只屠夫</a></li>
+			<li><a href="javascript:;">创意工坊：蓝胖套装萌萌哒</a></li>
+			<li><a href="javascript:;">左手dota，右手韶华番外篇</a></li>
+		</ul>
+	</div>
+</body>
+</html>

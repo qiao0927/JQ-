@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui" />
+	<script type="text/javascript" src="zeptoWithFxTouch.min.js"></script>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		html,body{
+			height: 100%;
+			overflow: hidden;
+			background-color: #000;
+		}
+		div.page{
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			transform: translateY(100%);
+			-webkit-transform: translateY(100%);
+		}
+		div.page0{background: url(shuzi/0.png);-webkit-transform:none;}
+		div.page1{background: url(shuzi/1.png);}
+		div.page2{background: url(shuzi/2.png);}
+		div.page3{background: url(shuzi/3.png);}
+		div.page4{background: url(shuzi/4.png);}
+		div.page5{background: url(shuzi/5.png);}
+	</style>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var startY;	//开始触摸时候的Y
+			var tempY;	//临时Y
+			var windowHeight = $(window).height();
+			var dY;		//Y变化
+			var nowpage = 0;
+
+			var dangqianpage = $(".page").eq(nowpage);
+			var xiapage = $(".page").eq(nowpage + 1);
+	 
+
+			var nowZindex = 1;
+
+			//开始触摸
+			$(document).on("touchstart",function(event){
+				var finger = event.touches[0];	//获得手指
+				startY = finger.pageY;
+				console.log("开始触摸位置已经记录",startY);
+			});
+
+			//触摸滑动
+			$(document).on("touchmove",function(event){
+				event.preventDefault();	//阻止默认事件
+				var finger = event.touches[0];	//获得手指
+				tempY = finger.pageY;		//临时Y
+				dY = tempY - startY		//坐标差
+				console.log("当前坐标差",dY);
+
+				// 往上滑：
+				if(dY < 0){
+					//往上滑 
+					if(xiapage){
+						dangqianpage.css("-webkit-transform","scale(" + (windowHeight+(dY/2)) / windowHeight + ")");
+						xiapage.css("z-index",nowZindex);
+						xiapage.css("-webkit-transform","translateY(" + (windowHeight + dY) + "px)");
+					}
+				}else if(dY > 0){
+					//往下滑
+					if(shangpage){
+						shangpage.css("z-index",nowZindex);
+						shangpage.css("-webkit-transform","translateY(" + (-windowHeight+ dY) + "px)");
+						dangqianpage.css("-webkit-transform","scale(" + (windowHeight-(dY/2)) / windowHeight + ")");
+					}
+				}
+			});
+
+			//触摸结束
+			$(document).on("touchend",function(event){
+				//上滑
+				if(dY < -100){
+					//判定成功
+					if(xiapage){
+						dangqianpage.animate({"-webkit-transform":"scale(0)"},200);
+						xiapage.animate({"-webkit-transform":"translateY(0)"},200);
+						//信号量改变
+						nowpage ++;
+					}
+					//对应的转移cur
+					$(".page").eq(nowpage).addClass("cur").siblings().removeClass("cur");
+				}else if(dY < 0){
+					//判定失败
+					if(xiapage){
+						dangqianpage.animate({"-webkit-transform":"scale(1)"},200);
+						dangqianpage.animate({"-webkit-transform":"scale(1)"},200);
+						xiapage.animate({"-webkit-transform":"translateY(100%)"},200);
+					}
+				}
+
+				//下滑
+				if(dY > 100){
+					//判定成功
+					if(shangpage){
+						dangqianpage.animate({"-webkit-transform":"scale(0)"},200);
+						shangpage.animate({"-webkit-transform":"translateY(0%)"},200);
+						nowpage --;
+					}
+					//对应的转移cur
+					$(".page").eq(nowpage).addClass("cur").siblings().removeClass("cur");
+				}else if(dY > 0){
+					//判定失败
+					if(shangpage){
+						dangqianpage.animate({"-webkit-transform":"scale(1)"},200);
+						shangpage.animate({"-webkit-transform":"translateY(-100%)"},200);
+					}
+				}
+
+				initial();
+			});
+
+
+			function initial(){
+					dangqianpage = $(".page").eq(nowpage);
+					xiapage = $(".page").eq(nowpage + 1);
+					shangpage = $(".page").eq(nowpage - 1);
+
+					if(nowpage == 0){
+						shangpage = null;
+					}else if(nowpage == 5){
+						xiapage = null;
+					}
+					nowZindex++;
+
+					//滑动的一瞬间，立即让下一个盒子就位！就是让下一个盒子在自己的位置，准备魔术
+					if(xiapage){
+						xiapage.css({"-webkit-transform" :"translateY(100%)" });
+					}
+
+					//滑动的一瞬间，立即让上一个盒子就位！就是让上一个盒子在自己的位置，准备魔术
+					if(shangpage){
+						shangpage.css({"-webkit-transform":"translateY(-100%)", });
+					}
+
+					if(dangqianpage){
+						dangqianpage.css({"-webkit-transform" :"none" });
+					}
+				}
+		});	
+	</script>
+</head>
+<body>
+	<div class="page page0 cur"></div>
+	<div class="page page1"></div>
+	<div class="page page2"></div>
+	<div class="page page3"></div>
+	<div class="page page4"></div>
+	<div class="page page5"></div>
+</body>
+</html>

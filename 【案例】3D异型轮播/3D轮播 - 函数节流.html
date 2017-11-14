@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		body{
+			background: #000;
+		}
+		.stage{
+			width: 560px;
+			height: 300px;
+			margin: 100px auto;
+			border: 1px solid #000;
+			position: relative;
+			perspective:600px;
+		}
+		.stage ul{
+			list-style: none;
+		}
+		.stage ul li{
+			position: absolute;
+			transition:all 1s ease 0s;
+			top: 0;
+			left: 0;
+		}
+		.stage ul li img{
+			/*让图片跟着自己的盒子变大、变小*/
+			width: 100%;
+		}
+		.stage ul li.stateA{
+			z-index: 777;
+			opacity: 0;
+			transform: rotateY(40deg) translateX(-200px) translateZ(-200px) scale(0.2);
+		}
+		.stage ul li.stateB{
+			z-index: 888;
+			transform: rotateY(40deg) translateX(-200px) translateZ(-200px) scale(0.7);
+		}
+		.stage ul li.stateC{
+			width: 560px;
+			z-index: 999;
+			transform:none;
+		}
+		.stage ul li.stateD{
+			z-index: 888;
+			transform:rotateY(-40deg) translateX(-60px);
+			transform: rotateY(-40deg) translateX(200px) translateZ(-200px) scale(0.7);
+		}
+		.stage ul li.stateE{
+			width: 80px;
+			z-index: 777;
+			opacity: 0;
+			transform: rotateY(-40deg) translateX(200px) translateZ(-200px) scale(0.2);
+		}
+		.stage ul li.waiting{
+			display: none;
+		}
+		.rightBtn{
+			float: right;
+			position: relative;
+			z-index: 113213;
+		}
+		.leftBtn{
+			float: left;
+			position: relative;
+			z-index: 113213;
+		}
+	</style>
+	<script type="text/javascript">
+		window.onload = function(){
+			// 得到按钮
+			var rightBtn = document.getElementById("rightBtn");
+			var leftBtn = document.getElementById("leftBtn");
+			// 得到所有的li
+			var myLis = document.getElementById("liebiao").getElementsByTagName("li");
+			// 定义一个数组
+			var arr = ["stateA","stateB","stateC","stateD","stateE","waiting","waiting","waiting","waiting"];
+
+			//锁
+			var lock = true;
+
+			//右按钮监听
+			rightBtn.onclick = function(){
+				//执行右按钮的时候，要判定lock
+				//只有lock是真的时候，才能执行
+				if(lock){
+					// 删除数组的最后一项
+					var lastOne = arr.pop();
+					// 添加到最前面
+					arr.unshift(lastOne);
+					// 让第x个li的类名，变为数组中的第x项：
+					for(var i = 0 ; i < myLis.length ; i++){
+						myLis[i].className = arr[i];
+					}
+
+					//过河拆桥
+					lock = false;
+
+					//1.2秒后，重新修个桥
+					setTimeout(function(){
+						lock = true;
+					}, 1200);
+				}
+			}
+
+			//右按钮监听
+			leftBtn.onclick = function(){
+				if(lock){
+					// 删除数组的第一项
+					var firstOne = arr.shift();
+					// 添加到最后面
+					arr.push(firstOne);
+					// 让第x个li的类名，变为数组中的第x项：
+					for(var i = 0 ; i < myLis.length ; i++){
+						myLis[i].className = arr[i];
+					}
+
+					//过河拆桥
+					lock = false;
+
+					//1.2秒后，重新修个桥
+					setTimeout(function(){
+						lock = true;
+					}, 1200);
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+	<div class="stage">
+		<input id="leftBtn" class="leftBtn" type="button" value="按钮">
+		<input id="rightBtn" class="rightBtn" type="button" value="按钮">
+		<ul id="liebiao">
+			<li class="stateA"><img src="images/0.jpg" alt=""></li>
+			<li class="stateB"><img src="images/1.jpg" alt=""></li>
+			<li class="stateC"><img src="images/2.jpg" alt=""></li>
+			<li class="stateD"><img src="images/3.jpg" alt=""></li>
+			<li class="stateE"><img src="images/4.jpg" alt=""></li>
+			<li class="waiting"><img src="images/6.jpg" alt=""></li>
+			<li class="waiting"><img src="images/7.jpg" alt=""></li>
+			<li class="waiting"><img src="images/8.jpg" alt=""></li>
+			<li class="waiting"><img src="images/9.jpg" alt=""></li>
+		</ul>
+	</div>
+</body>
+</html>

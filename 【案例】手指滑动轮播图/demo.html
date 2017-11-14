@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .swipeCarouselWrap{
+            width: 300px;
+            margin: 100px auto;
+            overflow: hidden;
+        }
+        .swipeCarouselWrap ul.imagesList {
+            width: 100%;
+            height: auto;
+            list-style: none;
+            position: relative;
+        }
+        .swipeCarouselWrap ul.imagesList li {
+            position: absolute;
+            width: 100%;
+            height: auto;
+            top: 0;
+            left: 0;
+            -webkit-transform: translate(100%);  /*默认让图片都往右错开一位*/
+        }
+        .swipeCarouselWrap ul.imagesList li img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function (){
+            var swipeCarouselWrap = document.getElementById("swipeCarouselWrap");     //得到容器
+            var imagesListLis = document.getElementById("imagesList").getElementsByTagName("li"); //所有li
+            var imagesListLisLength = imagesListLis.length;
+
+            //得到容器宽,getComputedStyle可以得到一个元素计算后的样式
+            var imgSwipeWidth = parseInt(getComputedStyle(swipeCarouselWrap, null)["width"]);
+            //设置容器高等于图片高
+            swipeCarouselWrap.style.height = getComputedStyle(imagesListLis[0], null)["height"];
+
+            var nowimg = 0; //信号量，表示当前显示的图片下标。
+            var touchStartX = 0;	//全局变量，记录用户开始触摸时手指的位置，touchmove和touchend要通信这个变量
+            var dx = 0;	//全局变量，因为touchmove和touchend要通信这个变量
+
+            var timeout;    //定时器和延时器
+            var interval;
+
+            //当前touchmove时，有动画效果的3个元素，用数组保存。
+            //事实上，这个数组是一个队列的数据结构，从一头进，一头出
+            var queue = [imagesListLis[imagesListLisLength - 1], imagesListLis[0], imagesListLis[1]];
+
+            init();	//初始化
+
+            //监听window的resize事件，重新初始化
+            window.addEventListener("resize", function () {
+                init();
+                //得到容器宽
+                imgSwipeWidth = parseInt(getComputedStyle(imgSwipe, null)["width"]);
+                //设置容器高等于图片高
+                swipeCarouselWrap.style.height = getComputedStyle(imagesListLis[0], null)["height"];
+            });
+
+            //绑定监听
+            swipeCarouselWrap.addEventListener("touchstart", touchStartHandler);
+            swipeCarouselWrap.addEventListener("touchmove", touchMoveHandler);
+            swipeCarouselWrap.addEventListener("touchend", touchEndHandler);
+
+            /* init初始化函数
+             * 功能：让所有的li在初始位置就位。最后一张图片在-320。第一张图在0。其余所有图在320。*/
+            function init() {
+                //让所有的li排到初始位置，除第0张和最后一张之外，都排在320的位置
+                for (var i = 1; i <= imagesListLisLength - 2; i++) {
+                    imagesListLis[i].style.transform = "translateX(100%)";
+                    imagesListLis[i].style.webkitTransform = "translateX(100%)";
+                }
+                tanslateQueue(-imgSwipeWidth, 0, imgSwipeWidth, false);
+            }
+
+            /*移动队列函数
+             * @params a  数值，队列中0号元素的位置
+             * @params b  数值，队列中1号元素的位置
+             * @params c  数值，队列中2号元素的位置
+             * @params transition 布尔，是否需要过渡效果*/
+            function tanslateQueue(a, b, c, transition) {
+                //拿掉队列中的图片的transition
+                if (transition) {
+                    for (var i = 0; i <= 2; i++) {
+                        queue[i].style.transition = "all 0.3s ease 0s";
+                        queue[i].style.webkitTransition = "all 0.3s ease 0s";
+                    }
+                } else {
+                    for (var i = 0; i <= 2; i++) {
+                        queue[i].style.transition = "none";
+                        queue[i].style.webkitTransition = "none";
+                    }
+                }
+                //队列中的元素，移动
+                queue[0].style.transform = "translateX(" + a + "px)";
+                queue[1].style.transform = "translateX(" + b + "px)";
+                queue[2].style.transform = "translateX(" + c + "px)";
+                queue[0].style.webkitTransform = "translateX(" + a + "px)";
+                queue[1].style.webkitTransform = "translateX(" + b + "px)";
+                queue[2].style.webkitTransform = "translateX(" + c + "px)";
+            }
+
+            //触摸开始事件业务
+            function touchStartHandler(event) {
+                //触摸开始的时候，要记录用户开始触摸的位置，并不需要减去offsetLeft值，这是因为
+                //我们只关心一会儿的dx，而dx值是一个差。
+                touchStartX = event.touches[0].pageX;
+                //得到
+                clearInterval(interval);
+                clearTimeout(timeout);
+            }
+
+            //触摸移动事件业务
+            function touchMoveHandler(event) {
+                event.preventDefault();	//阻止默认事件
+                //与开始滑动的位置x进行比对，称作净x移动，用变量dx表示
+                dx = event.touches[0].pageX - touchStartX;
+                tanslateQueue(-imgSwipeWidth + dx, dx, imgSwipeWidth + dx, false);
+            }
+
+            //触摸结束事件业务
+            function touchEndHandler() {
+                if (Math.abs(dx) < imgSwipeWidth / 3) {
+                    //判定移动失败
+                    // console.log("判定没有滑动")
+                    //给队列中的图片的添加过渡
+                    tanslateQueue(-imgSwipeWidth, 0, imgSwipeWidth, true);
+                } else if (dx <= -imgSwipeWidth / 3) {
+                    // console.log("判定右滑动成功");
+                    rightSlide();
+                } else if (dx >= imgSwipeWidth / 3) {
+                    // console.log("判定左滑动成功");
+                    tanslateQueue(0, imgSwipeWidth, 2 * imgSwipeWidth, true);
+                    //信号量的增加
+                    nowimg--;
+                    if (nowimg < 0) {
+                        nowimg = imagesListLisLength - 1;
+                    }
+                    //改变queue数组
+                    queue.pop();  //弹出队列中尾巴的元素
+                    //然后在队列的头部插入元素
+                    //信号量改变完之后，再用一个if语句判断，注意，这里的判断必须是信号量变完之后再来一次，不能和上面的if语句写在一起
+                    if (nowimg == 0) {
+                        queue.unshift(imagesListLis[imagesListLisLength - 1]);
+                    } else {
+                        queue.unshift(imagesListLis[nowimg - 1]);
+                    }
+                }
+                interval = setInterval(rightSlide, 2000);
+            }
+
+            function rightSlide(){
+                tanslateQueue(-2 * imgSwipeWidth, -imgSwipeWidth, 0, true);
+                //信号量的增加
+                nowimg++;
+                if (nowimg > imagesListLisLength - 1) {
+                    nowimg = 0;
+                }
+                //改变queue数组
+                queue.shift();  //弹出队列中开头的元素
+                //信号量改变完之后，再用一个if语句判断，注意，这里的判断必须是信号量变完之后再来一次，不能和上面的if语句写在一起
+                if (nowimg == imagesListLisLength - 1) {
+                    queue.push(imagesListLis[0]);
+                } else {
+                    queue.push(imagesListLis[nowimg + 1]);
+                }
+                timeout = setTimeout(
+                    function(){
+                        tanslateQueue(-imgSwipeWidth, 0 , imgSwipeWidth, false);    //再次就位
+                    },500
+                );
+            }
+
+            interval = setInterval(rightSlide, 2000);
+        }
+    </script>
+</head>
+<body>
+<div class="swipeCarouselWrap" id="swipeCarouselWrap">
+    <ul id="imagesList" class="imagesList">
+        <li><a href="#"><img src="images/0.png"/></a></li>
+        <li><a href="#"><img src="images/1.png"/></a></li>
+        <li><a href="#"><img src="images/2.png"/></a></li>
+        <li><a href="#"><img src="images/3.png"/></a></li>
+        <li><a href="#"><img src="images/4.png"/></a></li>
+    </ul>
+    <ul id="circlesList" class="circlesList">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+</body>
+</html>
